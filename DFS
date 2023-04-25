@@ -1,0 +1,53 @@
+class Path:
+    @staticmethod
+    def main():
+        maze = [
+            ['S', '-', '-', '-', '-', 'W'],
+            ['-', 'W', '-', 'W', '-', '-'],
+            ['-', 'W', '-', 'W', 'W', '-'],
+            ['-', 'W', '-', '-', '-', '-'],
+            ['-', '-', '-', 'W', 'E', '-'],
+        ]
+
+        path = Path()
+        result = path.depth_first_search(maze)
+
+    @staticmethod
+    def depth_first_search(maze):
+        start_row = -1
+        start_col = -1
+
+        for i in range(len(maze)):
+            for j in range(len(maze[i])):
+                if maze[i][j] == 'S':
+                    start_row = i
+                    start_col = j
+
+        stack = []
+
+        stack.append(start_row)
+        stack.append(start_col)
+
+        while stack:
+            col = stack.pop()
+            row = stack.pop()
+
+            if maze[row][col] == 'E':
+                return True
+
+            maze[row][col] = 'V'
+
+            if row-1 >= 0 and maze[row-1][col] != 'V' and maze[row-1][col] != 'W':
+                stack.append(row-1)
+                stack.append(col)
+            if row+1 < len(maze) and maze[row+1][col] != 'V' and maze[row+1][col] != 'W':
+                stack.append(row+1)
+                stack.append(col)
+            if col-1 >= 0 and maze[row][col-1] != 'V' and maze[row][col-1] != 'W':
+                stack.append(row)
+                stack.append(col-1)
+            if col+1 < len(maze[0]) and maze[row][col+1] != 'V' and maze[row][col+1] != 'W':
+                stack.append(row)
+                stack.append(col+1)
+
+        return False
